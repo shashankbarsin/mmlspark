@@ -1,6 +1,10 @@
 import java.io.File
 import java.net.URL
-import org.apache.commons.io.FileUtils
+
+import org.apache.commons.io.{FileUtils, IOUtils}
+import java.io.PrintWriter
+import java.io.File
+
 import scala.sys.process.Process
 
 def getVersion(baseVersion: String): String = {
@@ -88,14 +92,11 @@ packagePythonTask := {
   val s = streams.value
   (run in IntegrationTest2).toTask("").value
   createCondaEnvTask.value
-  println("here1")
   Process(
     activateCondaEnv ++
       Seq(s"python", "setup.py", "bdist_wheel", "--universal", "-d", s"${pythonPackageDir.absolutePath}"),
     pythonSrcDir,
     "MML_PY_VERSION" -> getPythonVersion(baseVersion)) ! s.log
-  println("here2")
-
 }
 
 val installPipPackageTask = TaskKey[Unit]("installPipPackage", "install python sdk")
@@ -104,12 +105,10 @@ installPipPackageTask := {
   val s = streams.value
   publishLocal.value
   packagePythonTask.value
-  println("here3")
   Process(
     activateCondaEnv ++ Seq("pip", "install",
       s"mmlspark-${getPythonVersion(baseVersion)}-py2.py3-none-any.whl"),
     pythonPackageDir) ! s.log
-  println("here4")
 }
 
 val testPythonTask = TaskKey[Unit]("testPython", "test python sdk")
@@ -117,13 +116,11 @@ val testPythonTask = TaskKey[Unit]("testPython", "test python sdk")
 testPythonTask := {
   val s = streams.value
   installPipPackageTask.value
-  println("here5")
   Process(
     activateCondaEnv ++ Seq("python", "tools2/run_all_tests.py"),
     new File("."),
     "MML_VERSION" -> getVersion(baseVersion)
   ) ! s.log
-  println("here6")
 }
 
 val getDatasetsTask = TaskKey[Unit]("getDatasets", "download datasets used for testing")
@@ -176,6 +173,23 @@ developers := List(
   Developer("drdarshan", "Sudarshan Raghunathan",
     "mmlspark-support@microsoft.com", url("https://github.com/drdarshan"))
 )
+
+credentials += Credentials("Sonatype Nexus Repository Manager",
+  "oss.sonatype.org",
+  Secrets.nexusUsername,
+  Secrets.nexusPassword)
+
+pgpPassphrase := Some(Secrets.pgpPassword.toCharArray)
+pgpSecretRing := {
+  val temp = File.createTempFile("secret", ".asc")
+  new PrintWriter(temp) { write(Secrets.pgpPrivate); close() }
+  temp
+}
+pgpPublicRing := {
+  val temp = File.createTempFile("public", ".asc")
+  new PrintWriter(temp) { write(Secrets.pgpPublic); close() }
+  temp
+}
 
 licenses += ("MIT", url("https://github.com/Azure/mmlspark/blob/master/LICENSE"))
 publishMavenStyle := true
