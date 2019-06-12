@@ -16,6 +16,7 @@ jobs:
       inlineScript: 'sbt scalastyle test:scalastyle'
 
 - job: PythonTests
+  timeoutInMinutes: 0
   pool:
     vmImage: ubuntu-16.04
   steps:
