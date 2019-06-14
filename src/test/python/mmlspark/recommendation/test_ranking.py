@@ -68,7 +68,7 @@ class RankingSpec(unittest.TestCase):
             (3, 10, 3, 3)], cSchema)
         return ratings
 
-    def test_adapter_evaluator(self):
+    def ignore_adapter_evaluator(self):
         ratings = self.getRatings()
 
         user_id = "originalCustomerID"
@@ -93,7 +93,7 @@ class RankingSpec(unittest.TestCase):
         for metric in metrics:
             print(metric + ": " + str(RankingEvaluator(k=3, metricName=metric).evaluate(output)))
 
-    def test_adapter_evaluator_sar(self):
+    def ignore_adapter_evaluator_sar(self):
         ratings = self.getRatings()
 
         user_id = "originalCustomerID"
