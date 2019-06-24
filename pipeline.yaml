@@ -38,7 +38,7 @@ jobs:
       displayName: 'Python Tests'
       inputs:
         targetType: inline
-        script: 'ls && pwd && source activate mmlspark && sbt testPython'
+        script: 'su && ls && pwd && source activate mmlspark && sbt testPython'
         failOnStderr: true
     - task: PublishTestResults@2
       displayName: 'Publish Test Results **/test-reports/*.xml'

@@ -106,7 +106,7 @@ installPipPackageTask := {
   publishLocal.value
   packagePythonTask.value
   Process(
-    activateCondaEnv ++ Seq("sudo", "pip", "install",
+    activateCondaEnv ++ Seq("pip", "install",
       s"mmlspark-${getPythonVersion(baseVersion)}-py2.py3-none-any.whl"),
     pythonPackageDir) ! s.log
 }
