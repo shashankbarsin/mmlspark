@@ -22,12 +22,12 @@ RUN apt-get -qq update && apt-get -qq -y install curl bzip2 \
 ENV PATH /opt/conda/bin:$PATH
 ENV JAVA_HOME /usr/lib/jvm/java-1.8.0-openjdk-amd64
 
-RUN mkdir -p /home/vsts/work/1
-WORKDIR /home/vsts/work/1
+RUN mkdir -p /__w/1
+WORKDIR /__w/1
 RUN git clone https://github.com/Azure/mmlspark.git s \
     && cd s \
     && git checkout build-refactor
-WORKDIR /home/vsts/work/1/s
+WORKDIR /__w/1/s
 
 ADD environment.yaml .
 RUN conda env create -f environment.yaml && conda clean --all --yes
