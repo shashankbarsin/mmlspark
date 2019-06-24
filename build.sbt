@@ -1,9 +1,7 @@
-import java.io.File
+import java.io.{File, PrintWriter}
 import java.net.URL
 
-import org.apache.commons.io.{FileUtils, IOUtils}
-import java.io.PrintWriter
-import java.io.File
+import org.apache.commons.io.FileUtils
 
 import scala.sys.process.Process
 
