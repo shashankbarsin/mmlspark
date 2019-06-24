@@ -32,17 +32,14 @@ jobs:
   timeoutInMinutes: 0
   pool:
     vmImage: ubuntu-16.04
+  container: mhamilton723/mmlspark-build:0.17.1
   steps:
-    - bash: echo "##vso[task.prependpath]$CONDA/bin"
-      displayName: Add conda to PATH
-    - bash: conda create --yes --quiet -f environment.yaml
-      displayName: Create Anaconda environment
     - task: AzureCLI@1
       displayName: 'Python Tests'
       inputs:
         azureSubscription: 'Findable Incubation(ca9d21ff-2a46-4e8b-bf06-8d65242342e5)'
         scriptLocation: inlineScript
-        inlineScript: 'conda activate mmlspark && sbt installPipPackage && python -u tools2/run_all_tests.py'
+        inlineScript: 'sbt testPython'
     - task: PublishTestResults@2
       displayName: 'Publish Test Results **/test-reports/*.xml'
       inputs:
