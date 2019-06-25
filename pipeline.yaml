@@ -18,7 +18,7 @@ jobs:
       displayName: 'Python Tests'
       inputs:
         targetType: inline
-        script: 'ls && pwd && sudo -H sbt testPython'
+        script: 'ls && pwd && sudo -H pip install xmlrunner && sudo -H sbt testPython'
         failOnStderr: true
     - task: PublishTestResults@2
       displayName: 'Publish Test Results **/test-reports/*.xml'
