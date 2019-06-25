@@ -12,7 +12,7 @@ jobs:
     image: mhamilton723/mmlspark-build:0.17.4
     options: "--name cicontainer -v /usr/bin/docker:/tmp/docker:ro"
   steps:
-    - script: /tmp/docker exec -t -u 0 cicontainer $(Build.SourcesDirectory)/tools2/install_sudo.sh
+    - script: /tmp/docker exec -t -u 0 cicontainer sh -c "apt-get update && apt-get -o DPkg::Options::="--force-confold" -y install sudo"
       displayName: Install sudo
     - task: Bash@3
       displayName: 'Python Tests'
