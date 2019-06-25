@@ -10,6 +10,8 @@ jobs:
     vmImage: ubuntu-16.04
   container: mhamilton723/mmlspark-build:0.17.4
   steps:
+    - script: /tmp/docker exec -t -u 0 mhamilton723/mmlspark-build:0.17.4 $(Build.SourcesDirectory)/install_sudo.sh
+      displayName: Install sudo
     - task: Bash@3
       displayName: 'Python Tests'
       inputs:
