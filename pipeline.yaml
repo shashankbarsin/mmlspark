@@ -18,7 +18,7 @@ jobs:
       displayName: 'Python Tests'
       inputs:
         targetType: inline
-        script: 'ls && pwd && sbt testPython'
+        script: 'ls && pwd && sudo sbt testPython'
         failOnStderr: true
     - task: PublishTestResults@2
       displayName: 'Publish Test Results **/test-reports/*.xml'
